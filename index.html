@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>随机算数题</title>
+    <style>
+      *,
+      body {
+        margin: 0;
+        padding: 0;
+      }
+      body {
+        background: #262626;
+        height: 100vh;
+        width: 100vw;
+        display: grid;
+        place-items: center;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+        font-weight: 700;
+        color: white;
+        font-size: 30px;
+      }
+      .math-form {
+        width: 35vw;
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        align-items: center;
+        justify-content: center;
+      }
+      .num {
+        width: 100px;
+        height: 80px;
+        display: grid;
+        place-items: center;
+        font-size: 30px;
+        color: white;
+      }
+      .result-in {
+        color: black;
+        padding-left: 10px;
+        border: none;
+        border-radius: 5px;
+      }
+      .btn-submit {
+        grid-column: 1/6;
+        width: 100%;
+        height: 50px;
+        margin: 50px auto;
+      }
+      .msg {
+        width: 30vw;
+        margin: 0 auto;
+        height: 50px;
+        text-align: center;
+        color: red;
+      }
+      .title-div {
+        color: white;
+        width: 40vw;
+        text-align: center;
+        margin-bottom: 100px;
+        display: grid;
+        grid-template-columns: repeat(2,1fr);
+        justify-content: center;
+        align-items: center;
+        padding-bottom: 50px;
+        border-bottom: dotted 2px white;
+      }
+      .title-span {
+        color: yellow;
+      }
+      .btn-clear{
+        height: 100%;
+        width: 50%;
+        margin: 0 auto;
+      }
+      button{
+        background: #cacaca;
+        border: none;
+        border-radius: 5px;
+        box-shadow: 0px 10px 20px 0px rgba(134, 134, 134, 0.1);
+        transition: .1s;
+        font-size: 15px;
+        font-weight: 700;
+      }
+      button:hover{
+        background-color: white;
+      }
+    </style>
+  </head>
+  <body>
+    <section class="math-section">
+      <div class="title-div"><div>第 <span class="title-span"></span> 题</div><button class="btn-clear" onclick="cleanLocal()">清空题数</button></div> 
+      <form class="math-form">
+        <div class="num num1"></div>
+        <div class="num num-plus">x</div>
+        <div class="num num2"></div>
+        <div class="num num-equal">=</div>
+        <input type="number" class="num result-in" placeholder="答案"/>
+        <button class="btn-submit">确认答案 （Confirm Answer）</button>
+      </form>
+      <div class="msg"></div>
+    </section>
+
+    <script>
+      const mathForm = document.querySelector(".math-form");
+      const titleDiv = document.querySelector(".title-div");
+      const titleSpan = document.querySelector(".title-span");
+
+      function cleanLocal(){
+        localStorage.setItem("mathNum", 0)
+        mathForm.submit()
+      }
+
+      document.addEventListener("DOMContentLoaded", checkLocal);
+      function checkLocal() {
+        let x;
+        if (localStorage.getItem("mathNum") === null) {
+          localStorage.setItem("mathNum", 1);
+        } else {
+            x = localStorage.getItem("mathNum");
+        x = Number.parseInt(x);
+            localStorage.setItem("mathNum", x + 1);
+        }
+        x = localStorage.getItem("mathNum");
+        x = Number.parseInt(x);
+        titleSpan.innerHTML = x;
+      }
+
+      const num1 = document.querySelector(".num1");
+      let num1Random = Math.floor(Math.random() * 9 + 1);
+      num1.innerHTML = num1Random;
+
+      const num2 = document.querySelector(".num2");
+      let num2Random = Math.floor(Math.random() * 9 + 1);
+      num2.innerHTML = num2Random;
+
+      const resultIn = document.querySelector(".result-in");
+
+      document
+        .querySelector(".btn-submit")
+        .addEventListener("click", checkResult);
+      function checkResult(e) {
+        e.preventDefault();
+        let trueResult = num1Random * num2Random;
+
+        if (resultIn.value == trueResult) {
+          mathForm.submit();
+        
+        } else {
+          document.querySelector(".msg").innerHTML = "";
+          document.querySelector(".msg").innerHTML = "答案不正确，Austin再想想";
+        }
+      }
+    </script>
+  </body>
+</html>
